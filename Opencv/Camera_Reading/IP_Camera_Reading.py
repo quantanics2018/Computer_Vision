@@ -1,27 +1,22 @@
+# Import essential libraries
+import requests
 import cv2
+import numpy as np
+import imutils
 
-# Replace with the IP address and port displayed in the IP Webcam app
-url = "http://your_mobile_device_ip:8080/video"
+# Replace the below URL with your own. Make sure to add "/shot.jpg" at last.
+url = "http://192.168.29.213:8080/shot.jpg"
 
-# Open the video feed using OpenCV
-cap = cv2.VideoCapture(url)
-
-# Check if the video feed was opened successfully
-if not cap.isOpened():
-    print("Error opening video feed.")
-    exit()
-
+# While loop to continuously fetching data from the Url
 while True:
-    # Read a frame from the video feed
-    ret, frame = cap.read()
+	img_resp = requests.get(url)
+	img_arr = np.array(bytearray(img_resp.content), dtype=np.uint8)
+	img = cv2.imdecode(img_arr, -1)
+	img = imutils.resize(img, width=1000, height=1800)
+	cv2.imshow("Android_cam", img)
 
-    # Display the frame
-    cv2.imshow('Mobile Camera', frame)
+	# Press Esc key to exit
+	if cv2.waitKey(1) == 27:
+		break
 
-    # Check if the user pressed the 'q' key to quit
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# Release the video capture object and close the window
-cap.release()
 cv2.destroyAllWindows()
