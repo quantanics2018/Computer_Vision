@@ -24,7 +24,7 @@ def detect_color(hsv_image):
     return result
 
 # Load an image
-image_path = 'Image2.png'  # Replace with your image path
+image_path = 'Image2.jpg'  # Replace with your image path
 image = cv2.imread(image_path)
 
 # Convert the image to HSV color space
@@ -45,8 +45,9 @@ for contour in contours:
     shape = detect_shape(contour)
     color_detected_image = detect_color(hsv_image)
     
-    # Determine color
-    color = "Red" if cv2.countNonZero(color_detected_image) > 0 else "Unknown"
+    # Assuming color_detected_image is your color image
+    gray_image = cv2.cvtColor(color_detected_image, cv2.COLOR_BGR2GRAY)
+    color = "Red" if cv2.countNonZero(gray_image) > 0 else "Unknown"
     
     # Draw contour, shape, and color text
     cv2.drawContours(image, [contour], -1, (0, 255, 0), 2)

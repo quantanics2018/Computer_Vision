@@ -11,7 +11,7 @@ eye_cascade = cv.CascadeClassifier("haarcascades/haarcascade_eye.xml")
 
 #Capture video from webcam
 video_capture = cv.VideoCapture(0)
-
+ 
 #Read all frames from webcam
 while True:
     ret, frame = video_capture.read()
